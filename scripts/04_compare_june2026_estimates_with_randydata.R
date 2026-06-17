@@ -22,13 +22,13 @@ temp <- list.files(
   pattern = "*\\.csv$",
   full.names = TRUE)
 
-mpo_by_co = map_dfr(temp[1:2],
+mpo_by_co = map_dfr(temp[1:3],
                     fread)
 
 mpo_by_co$descrip = "MPO by County"
 mpo_by_co$source = "June 2026 estimates"
 
-mpo_totals = map_dfr(temp[3:4],
+mpo_totals = map_dfr(temp[4:6],
                      fread)
 
 mpo_totals$descrip = "MPO Totals"
@@ -36,13 +36,13 @@ mpo_totals$source = "June 2026 estimates"
 mpo_totals$cname = NA
 mpo_totals = mpo_totals %>% select(colnames(mpo_by_co))
 
-ua_by_co = map_dfr(temp[5:7],
+ua_by_co = map_dfr(temp[7:9],
                    fread)
 
 ua_by_co$descrip = "UA by County"
 ua_by_co$source = "June 2026 estimates"
 
-ua_totals = map_dfr(temp[8:10],
+ua_totals = map_dfr(temp[10:12],
                     fread)
 
 ua_totals$descrip = "UA Totals"
@@ -68,14 +68,14 @@ ua =
   pivot_longer(cols = `Pop 2020`:`Pop 2000`,names_to = "year",values_to = "estimate") %>%
   mutate(year = str_remove_all(year,"Pop "),
          cname= ifelse(is.na(cname),NA,cname)) %>%
-  select(colnames(approach2))
+  select(colnames(approach1))
 
 mpo =
   mpo %>% 
   pivot_longer(cols = `Pop 2020`:`Pop 2000`,names_to = "year",values_to = "estimate") %>%
   mutate(year = str_remove_all(year,"Pop "),
          cname= ifelse(is.na(cname),NA,cname)) %>%
-  select(colnames(approach2))
+  select(colnames(approach1))
 
 randy = rbind(mpo,ua)
 
