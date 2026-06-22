@@ -65,6 +65,8 @@ here::i_am('scripts/01_get_data_and_clean.R')
 #historic boundaries in data/mpo.gdb
 mpo25 = st_read(here('data/mpo2025/transgis_mpo_export.shp'))
 
+table(mpo25$NAME)
+
 # st_crs(mpo)
 # suggest_crs(mpo) #6558 -- NAD83(2011) / Oregon North meters
 mpo25 = st_transform(mpo25,6558)
@@ -136,14 +138,14 @@ mpo10 =
 
 #double-check all MPOs of interest are explicitly selected, and tidy
 mpo25 = mpo25 %>%
-  filter(str_detect(mpo_name,'Albany|Bend|Corvallis|Eugene|Grants Pass|Middle Rogue|Rogue Valley|METRO|Salem')) %>%
+  filter(str_detect(mpo_name,'Albany|Bend|Corvallis|Eugene|Grants Pass|Middle Rogue|Rogue Valley|METRO|Salem|Central')) %>%
   select(year,everything())
 
 
 mpo = rbind(mpo10,mpo20,mpo24,mpo25)
 
 mpo = mpo %>%
-  filter(str_detect(mpo_name,'Albany|Bend|Corvallis|Eugene|Grants Pass|Middle Rogue|Rogue Valley|METRO|Salem'))  %>%
+  filter(str_detect(mpo_name,'Albany|Bend|Corvallis|Eugene|Grants Pass|Middle Rogue|Rogue Valley|METRO|Salem|Central Lane'))  %>%
   mutate(mpo_name = case_when(str_detect(mpo_name,"Albany") ~ "Albany",
                               str_detect(mpo_name,"Bend") ~ "Bend",
                               str_detect(mpo_name,"Central Lane") ~ "Central Lane",
@@ -324,6 +326,7 @@ st_write(blockpoints,here('data/clean_blocks/combined_block_centroids.gpkg'),app
 
 ua25 = st_read(here('data/ua2025/cb_2020_us_ua20_corrected_500k.shp'))
 ua25 = ua25 %>% filter(str_detect(NAME20,", OR"),!str_detect(NAME20,", WA"))
+table(ua25$NAME20)
 
 ua24 = st_read(here('data/ua2024/tl_2024_us_uac20.shp'))
 ua24 = ua24 %>% filter(str_detect(NAME20,", OR"),!str_detect(NAME20,", WA"))
@@ -408,3 +411,4 @@ uas =
 st_write(uas,here('data/clean_UA_boundaries.gpkg'),append=FALSE)
 
 
+f

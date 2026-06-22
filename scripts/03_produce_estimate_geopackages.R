@@ -38,7 +38,7 @@
   mpos = st_read(here('data/clean_mpo_boundaries.gpkg'))
   mpos = mpos %>%
     filter(year=="2025",
-           str_detect(mpo_name,'Albany|Bend|Corvallis|Eugene|Grants Pass|Middle Rogue|Rogue Valley|METRO|Salem'))  %>%
+           str_detect(mpo_name,'Albany|Bend|Corvallis|Eugene|Grants Pass|Middle Rogue|Rogue Valley|METRO|Salem|Central Lane'))  %>%
     mutate(year ="2020",
            mpo_name = case_when(str_detect(mpo_name,"Albany") ~ "Albany",
                                 str_detect(mpo_name,"Bend") ~ "Bend",
@@ -56,7 +56,7 @@
   uas = st_read(here('data/clean_UA_boundaries.gpkg'))
   uas = uas %>%
     filter(year=="2025",
-           str_detect(ua_name,'Albany|Bend|Corvallis|Eugene|Grants Pass|Medford|Portland|Salem')) %>%
+           str_detect(ua_name,'Albany|Bend|Corvallis|Eugene|Grants Pass|Medford|Portland|Salem|Central Lane')) %>%
     mutate(year = "2020") %>%
     st_transform(6558)
 }
